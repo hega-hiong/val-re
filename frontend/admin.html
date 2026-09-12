@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="fr">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Valère | Édition</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600;700&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="/styles.css" />
+  </head>
+  <body class="admin-page">
+    <header class="topbar">
+      <div class="container nav">
+        <div class="brand">
+          <span class="brand-mark">V</span>
+          <div>
+            <strong>VALÈRE</strong>
+            <small>édition</small>
+          </div>
+        </div>
+        <nav class="nav-links">
+          <a href="/">Retour au site</a>
+          <button id="logoutBtn" class="btn btn-secondary small hidden">Déconnexion</button>
+        </nav>
+      </div>
+    </header>
+
+    <main class="admin-shell">
+      <section id="loginPanel" class="auth-panel panel">
+        <div class="panel-header">
+          <span class="eyebrow">Accès réservé</span>
+          <h2>Connexion admin</h2>
+        </div>
+        <form id="loginForm" class="stack-form">
+          <label>
+            Nom d’utilisateur
+            <input type="text" name="username" value="admin" required />
+          </label>
+          <label>
+            Mot de passe
+            <input type="password" name="password" value="valère" required />
+          </label>
+          <button type="submit" class="btn btn-primary">Se connecter</button>
+        </form>
+      </section>
+
+      <section id="dashboardPanel" class="hidden dashboard-panel">
+        <div class="stats-grid">
+          <div class="stat-card">
+            <span>Total articles</span>
+            <strong id="stat-total-articles">0</strong>
+          </div>
+          <div class="stat-card success">
+            <span>Publiés</span>
+            <strong id="stat-published">0</strong>
+          </div>
+          <div class="stat-card warning">
+            <span>Masqués</span>
+            <strong id="stat-hidden">0</strong>
+          </div>
+          <div class="stat-card info">
+            <span>Commentaires</span>
+            <strong id="stat-comments">0</strong>
+          </div>
+          <div class="stat-card accent">
+            <span>Likes</span>
+            <strong id="stat-likes">0</strong>
+          </div>
+          <div class="stat-card danger">
+            <span>En attente</span>
+            <strong id="stat-pending">0</strong>
+          </div>
+        </div>
+
+        <div class="dashboard-grid">
+          <div class="panel">
+            <div class="panel-header">
+              <span class="eyebrow">Publication</span>
+              <h2>Rédiger un article</h2>
+            </div>
+            <form id="articleForm" class="stack-form">
+              <label>
+                Titre
+                <input type="text" name="title" placeholder="Titre de l’article" required />
+              </label>
+              <label>
+                Catégorie
+                <input type="text" name="category" placeholder="Ex : Politique, Société" />
+              </label>
+              <label>
+                URL de l’image
+                <input type="url" name="imageUrl" placeholder="https://..." />
+              </label>
+              <label>
+                Contenu
+                <textarea name="content" rows="7" placeholder="Rédigez votre article ici" required></textarea>
+              </label>
+              <button type="submit" class="btn btn-primary">Publier</button>
+            </form>
+          </div>
+
+          <div class="panel">
+            <div class="panel-header">
+              <span class="eyebrow">Gestion</span>
+              <h2>Articles</h2>
+            </div>
+            <div id="articleList" class="article-admin-list"></div>
+          </div>
+        </div>
+
+        <div class="panel moderation-panel">
+          <div class="panel-header">
+            <span class="eyebrow">Modération</span>
+            <h2>Commentaires</h2>
+          </div>
+          <div id="moderationList" class="moderation-list"></div>
+        </div>
+      </section>
+    </main>
+
+    <template id="articleAdminTemplate">
+      <div class="article-admin-item">
+        <div class="article-admin-head">
+          <div>
+            <strong class="admin-article-title"></strong>
+            <small class="admin-article-meta"></small>
+          </div>
+          <span class="status-pill"></span>
+        </div>
+        <div class="article-admin-actions">
+          <button type="button" class="btn btn-secondary small" data-action="toggle">Masquer</button>
+          <button type="button" class="btn btn-danger small" data-action="delete">Supprimer</button>
+        </div>
+      </div>
+    </template>
+
+    <template id="moderationItemTemplate">
+      <div class="moderation-item">
+        <div class="moderation-head">
+          <strong class="comment-author"></strong>
+          <span class="comment-status"></span>
+        </div>
+        <p class="comment-text"></p>
+        <div class="moderation-actions">
+          <button type="button" class="btn btn-secondary small" data-action="approve">Valider</button>
+          <button type="button" class="btn btn-secondary small" data-action="hide">Masquer</button>
+          <button type="button" class="btn btn-danger small" data-action="delete">Supprimer</button>
+        </div>
+      </div>
+    </template>
+
+    <script src="/admin.js"></script>
+  </body>
+</html>
