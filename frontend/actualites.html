@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="fr">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Valère | Actualités</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600;700&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="/styles.css" />
+  </head>
+  <body>
+    <header class="topbar">
+      <div class="container nav">
+        <a class="brand" href="/">
+          <span class="brand-mark">V</span>
+          <div><strong>VALÈRE</strong><small data-content="brandSubtitle"></small></div>
+        </a>
+        <nav class="nav-links">
+          <a href="/">Accueil</a><a href="/actualites.html">Actualités</a><a href="/a-propos.html">À propos</a><a href="/contact.html">Contact</a>
+        </nav>
+      </div>
+    </header>
+    <main>
+      <section class="page-intro">
+        <div class="container section-head">
+          <div><span class="eyebrow" data-content="newsEyebrow"></span><h1 data-content="newsTitle"></h1><p data-content="newsDescription"></p></div>
+        </div>
+      </section>
+      <section class="feed-section"><div class="container"><div id="articles" class="articles"></div></div></section>
+    </main>
+    <template id="article-template">
+      <article class="article-card">
+        <img class="article-image" alt="Image de l'article" /><div class="article-body"><div class="article-meta"><span class="category"></span><span class="date"></span></div><h3 class="article-title"></h3><p class="article-excerpt"></p><div class="article-content"></div><div class="article-actions"><button type="button" class="like-button">❤ J’aime <span class="like-count"></span></button></div><div class="comments-block"><h4>Commentaires</h4><div class="comments-list"></div><form class="comment-form"><div class="form-row split"><input type="text" name="author" placeholder="Votre nom" /><button type="submit" class="btn btn-primary small">Publier</button></div><textarea name="content" rows="3" placeholder="Votre réaction..."></textarea></form></div></div>
+      </article>
+    </template>
+    <script src="/app.js"></script>
+  </body>
+</html>

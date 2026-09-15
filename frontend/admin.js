@@ -5,6 +5,14 @@ const articleForm = document.querySelector('#articleForm');
 const moderationList = document.querySelector('#moderationList');
 const articleList = document.querySelector('#articleList');
 const logoutBtn = document.querySelector('#logoutBtn');
+const contentForm = document.querySelector('#contentForm');
+
+function fillContentForm(siteContent) {
+  Object.entries(siteContent || {}).forEach(([key, value]) => {
+    const field = contentForm.elements.namedItem(key);
+    if (field) field.value = value;
+  });
+}
 
 function setStats(data) {
   document.querySelector('#stat-total-articles').textContent = data.stats.totalArticles || 0;
@@ -62,6 +70,26 @@ logoutBtn.addEventListener('click', async () => {
   checkSession();
 });
 
+contentForm.addEventListener('submit', async (event) => {
+  event.preventDefault();
+  const formData = new FormData(contentForm);
+  const payload = Object.fromEntries(formData.entries());
+  const response = await fetch('/api/admin/site-content', {
+    method: 'PATCH',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(payload)
+  });
+
+  const data = await response.json();
+  if (!response.ok) {
+    alert(data.error || 'Enregistrement impossible.');
+    return;
+  }
+
+  fillContentForm(data.siteContent);
+  alert('Les textes du site ont été enregistrés.');
+});
+
 articleForm.addEventListener('submit', async (event) => {
   event.preventDefault();
   const formData = new FormData(articleForm);
@@ -107,6 +135,24 @@ function renderArticleAdminList(items) {
     statusPill.textContent = article.status === 'published' ? 'Publié' : 'Masqué';
     statusPill.classList.add(article.status === 'published' ? 'published' : 'hidden');
 
+    const editForm = node.querySelector('.article-edit-form');
+    editForm.elements.title.value = article.title || '';
+    editForm.elements.excerpt.value = article.excerpt || '';
+    editForm.elements.category.value = article.category || '';
+    editForm.elements.imageUrl.value = article.imageUrl || '';
+    editForm.elements.content.value = article.content || '';
+
+    node.querySelector('[data-action="edit"]').addEventListener('click', () => {
+      editForm.classList.remove('hidden');
+    });
+    node.querySelector('[data-action="cancel-edit"]').addEventListener('click', () => {
+      editForm.classList.add('hidden');
+    });
+    editForm.addEventListener('submit', (event) => {
+      event.preventDefault();
+      updateArticle(article.id, editForm);
+    });
+
     const toggleButton = node.querySelector('[data-action="toggle"]');
     toggleButton.textContent = article.status === 'published' ? 'Masquer' : 'Publier';
     toggleButton.addEventListener('click', () => {
@@ -117,6 +163,25 @@ function renderArticleAdminList(items) {
     node.querySelector('[data-action="delete"]').addEventListener('click', () => deleteArticle(article.id));
     articleList.appendChild(node);
   });
+}
+
+async function updateArticle(articleId, form) {
+  const formData = new FormData(form);
+  const payload = Object.fromEntries(formData.entries());
+  const response = await fetch(`/api/admin/articles/${articleId}`, {
+    method: 'PATCH',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(payload)
+  });
+  const data = await response.json();
+
+  if (!response.ok) {
+    alert(data.error || 'Modification impossible.');
+    return;
+  }
+
+  loadDashboard();
+  alert('Article modifié avec succès.');
 }
 
 function renderModeration(items) {
@@ -197,6 +262,7 @@ async function loadDashboard() {
   }
 
   setStats(data);
+  fillContentForm(data.siteContent);
   renderArticleAdminList(data.articles || []);
 
   const comments = [];

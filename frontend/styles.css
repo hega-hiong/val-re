@@ -47,6 +47,9 @@ img { max-width: 100%; display: block; }
 }
 .nav-links { display: flex; align-items: center; gap: 24px; color: var(--muted); }
 .hero { padding: 72px 0 36px; }
+.page-intro { padding: 88px 0 34px; }
+.narrow-copy { max-width: 760px; }
+.narrow-copy p, .page-intro .section-head p { max-width: 680px; color: var(--muted); line-height: 1.8; }
 .hero-inner { display: grid; grid-template-columns: 1.3fr 0.7fr; gap: 28px; align-items: center; }
 .eyebrow {
   display: inline-block; font-size: 0.78rem; text-transform: uppercase; letter-spacing: 0.12em; color: var(--primary); margin-bottom: 18px;
@@ -120,6 +123,12 @@ img { max-width: 100%; display: block; }
 .stack-form { display: grid; gap: 18px; }
 .stack-form label { display: grid; gap: 8px; color: var(--muted); }
 .dashboard-panel { display: block; }
+.content-panel { margin: 26px 0; }
+.content-form { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px; }
+.content-form label { display: grid; gap: 8px; color: var(--muted); }
+.content-form input, .content-form textarea { width: 100%; border: 1px solid var(--line); background: rgba(255, 255, 255, 0.02); color: var(--text); border-radius: 14px; padding: 0.9rem 1rem; font: inherit; }
+.content-form textarea { resize: vertical; }
+.content-form button { grid-column: 1 / -1; }
 .dashboard-grid { display: grid; grid-template-columns: 1.1fr 0.9fr; gap: 26px; margin-top: 24px; }
 .stats-grid {
   display: grid; grid-template-columns: repeat(3, minmax(120px, 1fr)); gap: 16px; margin-bottom: 26px;
@@ -148,11 +157,12 @@ img { max-width: 100%; display: block; }
 .comment-text { margin: 0 0 14px; color: var(--muted); line-height: 1.7; }
 .moderation-actions, .article-admin-actions { display: flex; flex-wrap: wrap; gap: 10px; }
 .article-admin-head strong { display: block; }
+.article-edit-form { margin: 16px 0; }
 .admin-article-meta { color: var(--muted); }
 .hidden { display: none !important; }
 .empty-state { color: var(--muted); padding: 12px 0; }
 @media (max-width: 900px) {
-  .hero-inner, .dashboard-grid { grid-template-columns: 1fr; }
+  .hero-inner, .dashboard-grid, .content-form { grid-template-columns: 1fr; }
   .stats-grid { grid-template-columns: repeat(2, minmax(120px, 1fr)); }
   .nav { flex-direction: column; justify-content: center; padding: 18px 0; gap: 12px; }
 }

@@ -9,9 +9,30 @@ const ROOT_DIR = path.join(__dirname, '..');
 const FRONTEND_DIR = path.join(ROOT_DIR, 'frontend');
 const DB_PATH = path.join(__dirname, 'data', 'db.json');
 
+const DEFAULT_SITE_CONTENT = {
+  brandSubtitle: 'journal de terrain',
+  homeEyebrow: 'Analyse, contexte, débat',
+  homeTitle: 'Des idées claires, des faits sans bruit.',
+  homeDescription: 'Valère est un espace de publication personnelle pour raconter l’actualité, donner du sens aux sujets de fond et laisser la conversation se développer avec les lecteurs.',
+  homeButton: 'Lire les dernières infos',
+  spotlightLabel: 'Le point du jour',
+  spotlightTitle: 'Le débat public revient au centre de la vie politique.',
+  spotlightDescription: 'Entre urgence sociale, exigence de clarté et besoin de confiance, les décideurs doivent reprendre la parole avec plus de cohérence.',
+  newsEyebrow: 'Fil d’actualités',
+  newsTitle: 'Dernières publications',
+  newsDescription: 'Les analyses et récits publiés récemment par Valère.',
+  aboutEyebrow: 'À propos',
+  aboutTitle: 'Un regard attentif sur le monde qui nous entoure.',
+  aboutDescription: 'Valère privilégie les faits, le contexte et les conversations utiles pour mieux comprendre les sujets qui traversent notre époque.',
+  contactEyebrow: 'Contact',
+  contactTitle: 'Poursuivons la conversation.',
+  contactDescription: 'Une question, une idée ou une réaction ? Écrivez-nous et nous vous répondrons avec attention.',
+  contactEmail: 'bonjour@valere.fr'
+};
+
 const ADMIN = {
-  username: process.env.ADMIN_USERNAME || 'admin',
-  password: process.env.ADMIN_PASSWORD || 'admin123'
+  username: process.env.ADMIN_USERNAME || 'valère',
+  password: process.env.ADMIN_PASSWORD || 'valère'
 };
 
 function ensureDb() {
@@ -77,6 +98,10 @@ function readDb() {
 
 function writeDb(data) {
   fs.writeFileSync(DB_PATH, JSON.stringify(data, null, 2));
+}
+
+function getSiteContent(db) {
+  return { ...DEFAULT_SITE_CONTENT, ...(db.siteContent || {}) };
 }
 
 function normalizeArticle(article) {
@@ -180,7 +205,11 @@ app.post('/api/logout', (req, res) => {
 
 app.get('/api/articles', (req, res) => {
   const db = readDb();
-  res.json({ articles: getPublicArticles(db) });
+  res.json({ articles: getPublicArticles(db), siteContent: getSiteContent(db) });
+});
+
+app.get('/api/site-content', (req, res) => {
+  res.json({ siteContent: getSiteContent(readDb()) });
 });
 
 app.post('/api/articles/:id/like', (req, res) => {
@@ -286,8 +315,23 @@ app.get('/api/admin/dashboard', requireAuth, (req, res) => {
   res.json({
     username: req.session.admin,
     stats,
-    articles
+    articles,
+    siteContent: getSiteContent(db)
   });
+});
+
+app.patch('/api/admin/site-content', requireAuth, (req, res) => {
+  const updates = req.body || {};
+  const db = readDb();
+  const current = getSiteContent(db);
+
+  db.siteContent = Object.keys(DEFAULT_SITE_CONTENT).reduce((content, key) => {
+    content[key] = typeof updates[key] === 'string' ? updates[key].trim() : current[key];
+    return content;
+  }, {});
+
+  writeDb(db);
+  res.json({ success: true, siteContent: db.siteContent });
 });
 
 app.post('/api/admin/articles', requireAuth, (req, res) => {
@@ -315,6 +359,28 @@ app.post('/api/admin/articles', requireAuth, (req, res) => {
   writeDb(db);
 
   res.status(201).json({ success: true, article });
+});
+
+app.patch('/api/admin/articles/:id', requireAuth, (req, res) => {
+  const { title, excerpt, content, imageUrl, category } = req.body || {};
+  if (!title || !content || !title.trim() || !content.trim()) {
+    return res.status(400).json({ error: 'Le titre et le contenu sont obligatoires.' });
+  }
+
+  const db = readDb();
+  const article = db.articles.find((item) => item.id === req.params.id);
+  if (!article) {
+    return res.status(404).json({ error: 'Article introuvable.' });
+  }
+
+  article.title = title.trim();
+  article.excerpt = excerpt && excerpt.trim() ? excerpt.trim() : content.trim().slice(0, 150);
+  article.content = content.trim();
+  article.imageUrl = imageUrl && imageUrl.trim() ? imageUrl.trim() : article.imageUrl;
+  article.category = category && category.trim() ? category.trim() : 'Actualité';
+  writeDb(db);
+
+  res.json({ success: true, article: normalizeArticle(article) });
 });
 
 app.patch('/api/admin/articles/:id/status', requireAuth, (req, res) => {

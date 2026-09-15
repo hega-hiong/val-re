@@ -1,6 +1,18 @@
 const articleTemplate = document.querySelector('#article-template');
 const articlesContainer = document.querySelector('#articles');
 
+function applySiteContent(siteContent) {
+  document.querySelectorAll('[data-content]').forEach((element) => {
+    const key = element.dataset.content;
+    if (siteContent[key]) {
+      element.textContent = siteContent[key];
+      if (key === 'contactEmail' && element.tagName === 'A') {
+        element.href = `mailto:${siteContent[key]}`;
+      }
+    }
+  });
+}
+
 function getUserId() {
   let userId = localStorage.getItem('valere-user-id');
 
@@ -30,7 +42,7 @@ function toggleLikedArticle(articleId, liked) {
 async function fetchArticles() {
   const response = await fetch('/api/articles');
   const data = await response.json();
-  return data.articles || [];
+  return data;
 }
 
 function renderComment(comment) {
@@ -62,6 +74,7 @@ function formatDate(dateString) {
 }
 
 function renderArticles(articles) {
+  if (!articlesContainer || !articleTemplate) return;
   articlesContainer.innerHTML = '';
 
   if (!articles.length) {
@@ -157,8 +170,9 @@ function renderArticles(articles) {
 }
 
 async function init() {
-  const articles = await fetchArticles();
-  renderArticles(articles);
+  const data = await fetchArticles();
+  applySiteContent(data.siteContent || {});
+  renderArticles(data.articles || []);
 }
 
 init();

@@ -16,12 +16,14 @@
           <span class="brand-mark">V</span>
           <div>
             <strong>VALÈRE</strong>
-            <small>journal de terrain</small>
+            <small data-content="brandSubtitle"></small>
           </div>
         </div>
         <nav class="nav-links">
-          <a href="#accueil">Accueil</a>
-          <a href="#actualites">Actualités</a>
+          <a href="/">Accueil</a>
+          <a href="/actualites.html">Actualités</a>
+          <a href="/a-propos.html">À propos</a>
+          <a href="/contact.html">Contact</a>
         </nav>
       </div>
     </header>
@@ -30,34 +32,28 @@
       <section class="hero">
         <div class="container hero-inner">
           <div class="hero-copy">
-            <span class="eyebrow">Analyse, contexte, débat</span>
-            <h1>Des idées claires, des faits sans bruit.</h1>
-            <p>
-              Valère est un espace de publication personnelle pour raconter l’actualité,
-              donner du sens aux sujets de fond et laisser la conversation se développer
-              avec les lecteurs.
-            </p>
+            <span class="eyebrow" data-content="homeEyebrow"></span>
+            <h1 data-content="homeTitle"></h1>
+            <p data-content="homeDescription"></p>
             <div class="hero-actions">
-              <a href="#actualites" class="btn btn-primary">Lire les dernières infos</a>
+              <a href="/actualites.html" class="btn btn-primary" data-content="homeButton"></a>
             </div>
           </div>
           <div class="hero-card">
-            <div class="mini-label">Le point du jour</div>
-            <h3>Le débat public revient au centre de la vie politique.</h3>
-            <p>
-              Entre urgence sociale, exigence de clarté et besoin de confiance,
-              les décideurs doivent reprendre la parole avec plus de cohérence.
-            </p>
+            <div class="mini-label" data-content="spotlightLabel"></div>
+            <h3 data-content="spotlightTitle"></h3>
+            <p data-content="spotlightDescription"></p>
           </div>
         </div>
       </section>
 
-      <section id="actualites" class="feed-section">
+      <section class="feed-section">
         <div class="container section-head">
           <div>
-            <span class="eyebrow">Fil d’actualités</span>
-            <h2>Dernières publications</h2>
+            <span class="eyebrow" data-content="newsEyebrow"></span>
+            <h2 data-content="newsTitle"></h2>
           </div>
+          <a href="/actualites.html" class="btn btn-secondary small">Voir tout</a>
         </div>
 
         <div class="container">

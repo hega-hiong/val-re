@@ -35,7 +35,7 @@
         <form id="loginForm" class="stack-form">
           <label>
             Nom d’utilisateur
-            <input type="text" name="username" value="admin" required />
+            <input type="text" name="username" value="valère" required />
           </label>
           <label>
             Mot de passe
@@ -71,6 +71,34 @@
             <span>En attente</span>
             <strong id="stat-pending">0</strong>
           </div>
+        </div>
+
+        <div class="panel content-panel">
+          <div class="panel-header">
+            <span class="eyebrow">Personnalisation</span>
+            <h2>Textes du site</h2>
+          </div>
+          <form id="contentForm" class="content-form">
+            <label>Signature sous le logo<input name="brandSubtitle" /></label>
+            <label>Accueil - petit titre<input name="homeEyebrow" /></label>
+            <label>Accueil - grand titre<input name="homeTitle" required /></label>
+            <label>Accueil - description<textarea name="homeDescription" rows="3"></textarea></label>
+            <label>Bouton de l’accueil<input name="homeButton" /></label>
+            <label>Encart - petit titre<input name="spotlightLabel" /></label>
+            <label>Encart - grand titre<input name="spotlightTitle" /></label>
+            <label>Encart - description<textarea name="spotlightDescription" rows="3"></textarea></label>
+            <label>Actualités - petit titre<input name="newsEyebrow" /></label>
+            <label>Actualités - grand titre<input name="newsTitle" required /></label>
+            <label>Actualités - description<textarea name="newsDescription" rows="3"></textarea></label>
+            <label>À propos - petit titre<input name="aboutEyebrow" /></label>
+            <label>À propos - grand titre<input name="aboutTitle" required /></label>
+            <label>À propos - description<textarea name="aboutDescription" rows="3"></textarea></label>
+            <label>Contact - petit titre<input name="contactEyebrow" /></label>
+            <label>Contact - grand titre<input name="contactTitle" required /></label>
+            <label>Contact - description<textarea name="contactDescription" rows="3"></textarea></label>
+            <label>Email de contact<input name="contactEmail" type="email" /></label>
+            <button type="submit" class="btn btn-primary">Enregistrer les textes</button>
+          </form>
         </div>
 
         <div class="dashboard-grid">
@@ -128,7 +156,19 @@
           </div>
           <span class="status-pill"></span>
         </div>
+        <form class="article-edit-form hidden stack-form">
+          <label>Titre<input name="title" required /></label>
+          <label>Résumé<input name="excerpt" /></label>
+          <label>Catégorie<input name="category" /></label>
+          <label>URL de l’image<input name="imageUrl" type="url" /></label>
+          <label>Contenu<textarea name="content" rows="6" required></textarea></label>
+          <div class="article-admin-actions">
+            <button type="submit" class="btn btn-primary small">Enregistrer</button>
+            <button type="button" class="btn btn-secondary small" data-action="cancel-edit">Annuler</button>
+          </div>
+        </form>
         <div class="article-admin-actions">
+          <button type="button" class="btn btn-secondary small" data-action="edit">Modifier</button>
           <button type="button" class="btn btn-secondary small" data-action="toggle">Masquer</button>
           <button type="button" class="btn btn-danger small" data-action="delete">Supprimer</button>
         </div>
