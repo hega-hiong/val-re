@@ -139,6 +139,8 @@ img { max-width: 100%; display: block; }
 .content-form input, .content-form textarea { width: 100%; border: 1px solid var(--line); background: rgba(255, 255, 255, 0.02); color: var(--text); border-radius: 14px; padding: 0.9rem 1rem; font: inherit; }
 .content-form textarea { resize: vertical; }
 .content-form button { grid-column: 1 / -1; }
+.field-help { color: var(--muted); font-size: 0.8rem; line-height: 1.4; }
+.article-edit-image { width: 160px; height: 96px; object-fit: cover; border-radius: 12px; border: 1px solid var(--line); }
 .dashboard-grid { display: grid; grid-template-columns: 1.1fr 0.9fr; gap: 26px; margin-top: 24px; }
 .stats-grid {
   display: grid; grid-template-columns: repeat(3, minmax(120px, 1fr)); gap: 16px; margin-bottom: 26px;

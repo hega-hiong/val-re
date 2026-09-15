@@ -31,6 +31,13 @@ function fillContentForm(siteContent) {
   });
 }
 
+function previewImage(input, preview) {
+  input.addEventListener('change', () => {
+    const file = input.files[0];
+    if (file) preview.src = URL.createObjectURL(file);
+  });
+}
+
 function setStats(data) {
   document.querySelector('#stat-total-articles').textContent = data.stats.totalArticles || 0;
   document.querySelector('#stat-published').textContent = data.stats.publishedArticles || 0;
@@ -113,14 +120,17 @@ articleForm.addEventListener('submit', async (event) => {
   const payload = {
     title: formData.get('title')?.toString().trim(),
     category: formData.get('category')?.toString().trim(),
-    imageUrl: formData.get('imageUrl')?.toString().trim(),
     content: formData.get('content')?.toString().trim()
   };
 
   const response = await fetch('/api/admin/articles', {
     method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify(payload)
+    body: (() => {
+      formData.set('title', payload.title);
+      formData.set('category', payload.category);
+      formData.set('content', payload.content);
+      return formData;
+    })()
   });
   const data = await response.json();
 
@@ -156,8 +166,10 @@ function renderArticleAdminList(items) {
     editForm.elements.title.value = article.title || '';
     editForm.elements.excerpt.value = article.excerpt || '';
     editForm.elements.category.value = article.category || '';
-    editForm.elements.imageUrl.value = article.imageUrl || '';
     editForm.elements.content.value = article.content || '';
+    const currentImage = node.querySelector('.article-edit-image');
+    currentImage.src = article.imageUrl || '';
+    previewImage(editForm.elements.image, currentImage);
 
     node.querySelector('[data-action="edit"]').addEventListener('click', () => {
       editForm.classList.remove('hidden');
@@ -184,11 +196,9 @@ function renderArticleAdminList(items) {
 
 async function updateArticle(articleId, form) {
   const formData = new FormData(form);
-  const payload = Object.fromEntries(formData.entries());
   const response = await fetch(`/api/admin/articles/${articleId}`, {
     method: 'PATCH',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify(payload)
+    body: formData
   });
   const data = await response.json();
 

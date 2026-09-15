@@ -2,12 +2,27 @@ const express = require('express');
 const fs = require('fs');
 const path = require('path');
 const session = require('express-session');
+const multer = require('multer');
 
 const app = express();
 const PORT = process.env.PORT || 3000;
 const ROOT_DIR = path.join(__dirname, '..');
 const FRONTEND_DIR = path.join(ROOT_DIR, 'frontend');
 const DB_PATH = path.join(__dirname, 'data', 'db.json');
+const UPLOADS_DIR = path.join(FRONTEND_DIR, 'uploads');
+const upload = multer({
+  storage: multer.diskStorage({
+    destination: UPLOADS_DIR,
+    filename: (req, file, callback) => {
+      const extension = path.extname(file.originalname).toLowerCase();
+      callback(null, `image-${Date.now()}${extension}`);
+    }
+  }),
+  limits: { fileSize: 5 * 1024 * 1024 },
+  fileFilter: (req, file, callback) => {
+    callback(null, file.mimetype.startsWith('image/'));
+  }
+});
 
 const DEFAULT_SITE_CONTENT = {
   brandSubtitle: 'journal de terrain',
@@ -37,6 +52,7 @@ const ADMIN = {
 
 function ensureDb() {
   const dataDir = path.join(__dirname, 'data');
+  fs.mkdirSync(UPLOADS_DIR, { recursive: true });
   if (!fs.existsSync(dataDir)) {
     fs.mkdirSync(dataDir, { recursive: true });
   }
@@ -335,7 +351,7 @@ app.patch('/api/admin/site-content', requireAuth, (req, res) => {
   res.json({ success: true, siteContent: db.siteContent });
 });
 
-app.post('/api/admin/articles', requireAuth, (req, res) => {
+app.post('/api/admin/articles', requireAuth, upload.single('image'), (req, res) => {
   const { title, content, imageUrl, category, status } = req.body || {};
 
   if (!title || !content || !title.trim() || !content.trim()) {
@@ -348,7 +364,7 @@ app.post('/api/admin/articles', requireAuth, (req, res) => {
     title: title.trim(),
     excerpt: (content.trim().slice(0, 150) + (content.trim().length > 150 ? '...' : '')).trim(),
     content: content.trim(),
-    imageUrl: imageUrl && imageUrl.trim() ? imageUrl.trim() : 'https://images.unsplash.com/photo-1529107386315-e1a2ed48a620?auto=format&fit=crop&w=1200&q=80',
+    imageUrl: req.file ? `/uploads/${req.file.filename}` : (imageUrl && imageUrl.trim() ? imageUrl.trim() : 'https://images.unsplash.com/photo-1529107386315-e1a2ed48a620?auto=format&fit=crop&w=1200&q=80'),
     category: category && category.trim() ? category.trim() : 'Actualité',
     status: status === 'hidden' ? 'hidden' : 'published',
     createdAt: new Date().toISOString(),
@@ -362,7 +378,7 @@ app.post('/api/admin/articles', requireAuth, (req, res) => {
   res.status(201).json({ success: true, article });
 });
 
-app.patch('/api/admin/articles/:id', requireAuth, (req, res) => {
+app.patch('/api/admin/articles/:id', requireAuth, upload.single('image'), (req, res) => {
   const { title, excerpt, content, imageUrl, category } = req.body || {};
   if (!title || !content || !title.trim() || !content.trim()) {
     return res.status(400).json({ error: 'Le titre et le contenu sont obligatoires.' });
@@ -377,7 +393,7 @@ app.patch('/api/admin/articles/:id', requireAuth, (req, res) => {
   article.title = title.trim();
   article.excerpt = excerpt && excerpt.trim() ? excerpt.trim() : content.trim().slice(0, 150);
   article.content = content.trim();
-  article.imageUrl = imageUrl && imageUrl.trim() ? imageUrl.trim() : article.imageUrl;
+  article.imageUrl = req.file ? `/uploads/${req.file.filename}` : (imageUrl && imageUrl.trim() ? imageUrl.trim() : article.imageUrl);
   article.category = category && category.trim() ? category.trim() : 'Actualité';
   writeDb(db);
 

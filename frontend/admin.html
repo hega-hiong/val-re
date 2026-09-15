@@ -72,7 +72,7 @@
 
             <section class="dashboard-view hidden" data-dashboard-view="site">
               <div class="panel content-panel">
-                <div class="panel-header"><span class="eyebrow">Personnalisation</span><h2>Pages du site</h2><p>Modifiez les titres et textes affichés sur l’accueil, les actualités, la page À propos et le contact.</p></div>
+                <div class="panel-header"><span class="eyebrow">Personnalisation</span><h2>Pages du site</h2><p>Les champs sont préremplis avec le texte actuel. Modifiez seulement ce que vous souhaitez changer.</p></div>
                 <form id="contentForm" class="content-form">
                   <label>Signature sous le logo<input name="brandSubtitle" /></label>
                   <label>Accueil - petit titre<input name="homeEyebrow" /></label>
@@ -104,7 +104,7 @@
                   <form id="articleForm" class="stack-form">
                     <label>Titre<input type="text" name="title" placeholder="Titre de l’article" required /></label>
                     <label>Catégorie<input type="text" name="category" placeholder="Ex : Politique, Société" /></label>
-                    <label>URL de l’image<input type="url" name="imageUrl" placeholder="https://..." /></label>
+                    <label>Photo de l’article<input type="file" name="image" accept="image/*" /><small class="field-help">JPG, PNG ou WebP, 5 Mo maximum.</small></label>
                     <label>Contenu<textarea name="content" rows="7" placeholder="Rédigez votre article ici" required></textarea></label>
                     <button type="submit" class="btn btn-primary">Publier</button>
                   </form>
@@ -134,7 +134,8 @@
           <label>Titre<input name="title" required /></label>
           <label>Résumé<input name="excerpt" /></label>
           <label>Catégorie<input name="category" /></label>
-          <label>URL de l’image<input name="imageUrl" type="url" /></label>
+          <label>Photo de l’article<input name="image" type="file" accept="image/*" /><small class="field-help">Laissez vide pour conserver la photo actuelle.</small></label>
+          <img class="article-edit-image" alt="Photo actuelle de l’article" />
           <label>Contenu<textarea name="content" rows="6" required></textarea></label>
           <div class="article-admin-actions">
             <button type="submit" class="btn btn-primary small">Enregistrer</button>
