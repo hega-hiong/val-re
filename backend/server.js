@@ -208,7 +208,12 @@ app.post('/api/login', (req, res) => {
 
   if (username === ADMIN.username && password === ADMIN.password) {
     req.session.admin = username;
-    return res.json({ success: true, username });
+    return req.session.save((error) => {
+      if (error) {
+        return res.status(500).json({ error: 'Impossible d’enregistrer la session.' });
+      }
+      return res.json({ success: true, username });
+    });
   }
 
   return res.status(401).json({ error: 'Identifiants invalides.' });

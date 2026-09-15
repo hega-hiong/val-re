@@ -7,6 +7,7 @@ const articleList = document.querySelector('#articleList');
 const logoutBtn = document.querySelector('#logoutBtn');
 const contentForm = document.querySelector('#contentForm');
 const dashboardViews = document.querySelectorAll('[data-dashboard-view]');
+const requestOptions = { credentials: 'same-origin' };
 
 function showRequestError(response, data, fallback) {
   if (response.status === 401) {
@@ -48,14 +49,14 @@ function setStats(data) {
 }
 
 async function checkSession() {
-  const response = await fetch('/api/session');
+  const response = await fetch('/api/session', requestOptions);
   const data = await response.json();
 
   if (data.loggedIn) {
     loginPanel.classList.add('hidden');
     dashboardPanel.classList.remove('hidden');
     logoutBtn.classList.remove('hidden');
-    loadDashboard();
+    await loadDashboard();
   } else {
     loginPanel.classList.remove('hidden');
     dashboardPanel.classList.add('hidden');
@@ -73,6 +74,7 @@ loginForm.addEventListener('submit', async (event) => {
 
   const response = await fetch('/api/login', {
     method: 'POST',
+    credentials: 'same-origin',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify(payload)
   });
@@ -86,11 +88,11 @@ loginForm.addEventListener('submit', async (event) => {
   loginPanel.classList.add('hidden');
   dashboardPanel.classList.remove('hidden');
   logoutBtn.classList.remove('hidden');
-  loadDashboard();
+  await loadDashboard();
 });
 
 logoutBtn.addEventListener('click', async () => {
-  await fetch('/api/logout', { method: 'POST' });
+  await fetch('/api/logout', { method: 'POST', ...requestOptions });
   checkSession();
 });
 
@@ -100,6 +102,7 @@ contentForm.addEventListener('submit', async (event) => {
   const payload = Object.fromEntries(formData.entries());
   const response = await fetch('/api/admin/site-content', {
     method: 'PATCH',
+    credentials: 'same-origin',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify(payload)
   });
@@ -125,6 +128,7 @@ articleForm.addEventListener('submit', async (event) => {
 
   const response = await fetch('/api/admin/articles', {
     method: 'POST',
+    credentials: 'same-origin',
     body: (() => {
       formData.set('title', payload.title);
       formData.set('category', payload.category);
@@ -198,6 +202,7 @@ async function updateArticle(articleId, form) {
   const formData = new FormData(form);
   const response = await fetch(`/api/admin/articles/${articleId}`, {
     method: 'PATCH',
+    credentials: 'same-origin',
     body: formData
   });
   const data = await response.json();
@@ -238,6 +243,7 @@ function renderModeration(items) {
 async function updateArticleStatus(articleId, status) {
   const response = await fetch(`/api/admin/articles/${articleId}/status`, {
     method: 'PATCH',
+    credentials: 'same-origin',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({ status })
   });
@@ -252,7 +258,8 @@ async function updateArticleStatus(articleId, status) {
 
 async function deleteArticle(articleId) {
   const response = await fetch(`/api/admin/articles/${articleId}`, {
-    method: 'DELETE'
+    method: 'DELETE',
+    credentials: 'same-origin'
   });
 
   if (response.ok) {
@@ -266,6 +273,7 @@ async function deleteArticle(articleId) {
 async function updateCommentStatus(commentId, status) {
   const response = await fetch(`/api/admin/comments/${commentId}/status`, {
     method: 'PATCH',
+    credentials: 'same-origin',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({ status })
   });
@@ -280,7 +288,8 @@ async function updateCommentStatus(commentId, status) {
 
 async function deleteComment(commentId) {
   const response = await fetch(`/api/admin/comments/${commentId}`, {
-    method: 'DELETE'
+    method: 'DELETE',
+    credentials: 'same-origin'
   });
 
   if (response.ok) {
@@ -292,7 +301,7 @@ async function deleteComment(commentId) {
 }
 
 async function loadDashboard() {
-  const response = await fetch('/api/admin/dashboard');
+  const response = await fetch('/api/admin/dashboard', requestOptions);
   const data = await response.json();
 
   if (!response.ok) {
