@@ -6,6 +6,23 @@ const moderationList = document.querySelector('#moderationList');
 const articleList = document.querySelector('#articleList');
 const logoutBtn = document.querySelector('#logoutBtn');
 const contentForm = document.querySelector('#contentForm');
+const dashboardViews = document.querySelectorAll('[data-dashboard-view]');
+
+function showRequestError(response, data, fallback) {
+  if (response.status === 401) {
+    alert('Votre session admin a expiré. Reconnectez-vous.');
+  } else {
+    alert(data?.error || fallback);
+  }
+}
+
+document.querySelectorAll('[data-view-target]').forEach((button) => {
+  button.addEventListener('click', () => {
+    document.querySelectorAll('[data-view-target]').forEach((item) => item.classList.remove('active'));
+    dashboardViews.forEach((view) => view.classList.toggle('hidden', view.dataset.dashboardView !== button.dataset.viewTarget));
+    button.classList.add('active');
+  });
+});
 
 function fillContentForm(siteContent) {
   Object.entries(siteContent || {}).forEach(([key, value]) => {
@@ -82,7 +99,7 @@ contentForm.addEventListener('submit', async (event) => {
 
   const data = await response.json();
   if (!response.ok) {
-    alert(data.error || 'Enregistrement impossible.');
+    showRequestError(response, data, 'Enregistrement impossible.');
     return;
   }
 
@@ -108,7 +125,7 @@ articleForm.addEventListener('submit', async (event) => {
   const data = await response.json();
 
   if (!response.ok) {
-    alert(data.error || 'Publication impossible.');
+    showRequestError(response, data, 'Publication impossible.');
     return;
   }
 
@@ -176,7 +193,7 @@ async function updateArticle(articleId, form) {
   const data = await response.json();
 
   if (!response.ok) {
-    alert(data.error || 'Modification impossible.');
+    showRequestError(response, data, 'Modification impossible.');
     return;
   }
 
@@ -217,6 +234,9 @@ async function updateArticleStatus(articleId, status) {
 
   if (response.ok) {
     loadDashboard();
+  } else {
+    const data = await response.json();
+    showRequestError(response, data, 'Impossible de modifier le statut.');
   }
 }
 
@@ -227,6 +247,9 @@ async function deleteArticle(articleId) {
 
   if (response.ok) {
     loadDashboard();
+  } else {
+    const data = await response.json();
+    showRequestError(response, data, 'Impossible de supprimer cet article.');
   }
 }
 
@@ -239,6 +262,9 @@ async function updateCommentStatus(commentId, status) {
 
   if (response.ok) {
     loadDashboard();
+  } else {
+    const data = await response.json();
+    showRequestError(response, data, 'Impossible de modifier ce commentaire.');
   }
 }
 
@@ -249,6 +275,9 @@ async function deleteComment(commentId) {
 
   if (response.ok) {
     loadDashboard();
+  } else {
+    const data = await response.json();
+    showRequestError(response, data, 'Impossible de supprimer ce commentaire.');
   }
 }
 

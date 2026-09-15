@@ -46,103 +46,77 @@
       </section>
 
       <section id="dashboardPanel" class="hidden dashboard-panel">
-        <div class="stats-grid">
-          <div class="stat-card">
-            <span>Total articles</span>
-            <strong id="stat-total-articles">0</strong>
-          </div>
-          <div class="stat-card success">
-            <span>Publiés</span>
-            <strong id="stat-published">0</strong>
-          </div>
-          <div class="stat-card warning">
-            <span>Masqués</span>
-            <strong id="stat-hidden">0</strong>
-          </div>
-          <div class="stat-card info">
-            <span>Commentaires</span>
-            <strong id="stat-comments">0</strong>
-          </div>
-          <div class="stat-card accent">
-            <span>Likes</span>
-            <strong id="stat-likes">0</strong>
-          </div>
-          <div class="stat-card danger">
-            <span>En attente</span>
-            <strong id="stat-pending">0</strong>
-          </div>
-        </div>
+        <div class="admin-layout">
+          <aside class="admin-sidebar panel">
+            <span class="eyebrow">Tableau de bord</span>
+            <nav class="dashboard-nav" aria-label="Sections administratives">
+              <button type="button" class="active" data-view-target="overview">Vue d’ensemble</button>
+              <button type="button" data-view-target="site">Pages du site</button>
+              <button type="button" data-view-target="articles">Articles</button>
+              <button type="button" data-view-target="comments">Commentaires</button>
+            </nav>
+          </aside>
 
-        <div class="panel content-panel">
-          <div class="panel-header">
-            <span class="eyebrow">Personnalisation</span>
-            <h2>Textes du site</h2>
-          </div>
-          <form id="contentForm" class="content-form">
-            <label>Signature sous le logo<input name="brandSubtitle" /></label>
-            <label>Accueil - petit titre<input name="homeEyebrow" /></label>
-            <label>Accueil - grand titre<input name="homeTitle" required /></label>
-            <label>Accueil - description<textarea name="homeDescription" rows="3"></textarea></label>
-            <label>Bouton de l’accueil<input name="homeButton" /></label>
-            <label>Encart - petit titre<input name="spotlightLabel" /></label>
-            <label>Encart - grand titre<input name="spotlightTitle" /></label>
-            <label>Encart - description<textarea name="spotlightDescription" rows="3"></textarea></label>
-            <label>Actualités - petit titre<input name="newsEyebrow" /></label>
-            <label>Actualités - grand titre<input name="newsTitle" required /></label>
-            <label>Actualités - description<textarea name="newsDescription" rows="3"></textarea></label>
-            <label>À propos - petit titre<input name="aboutEyebrow" /></label>
-            <label>À propos - grand titre<input name="aboutTitle" required /></label>
-            <label>À propos - description<textarea name="aboutDescription" rows="3"></textarea></label>
-            <label>Contact - petit titre<input name="contactEyebrow" /></label>
-            <label>Contact - grand titre<input name="contactTitle" required /></label>
-            <label>Contact - description<textarea name="contactDescription" rows="3"></textarea></label>
-            <label>Email de contact<input name="contactEmail" type="email" /></label>
-            <button type="submit" class="btn btn-primary">Enregistrer les textes</button>
-          </form>
-        </div>
+          <div class="admin-main">
+            <section class="dashboard-view" data-dashboard-view="overview">
+              <div class="view-heading"><span class="eyebrow">Bienvenue</span><h1>Votre espace de publication</h1><p>Gérez le contenu principal du site depuis les sections à gauche.</p></div>
+              <div class="stats-grid">
+                <div class="stat-card"><span>Total articles</span><strong id="stat-total-articles">0</strong></div>
+                <div class="stat-card success"><span>Publiés</span><strong id="stat-published">0</strong></div>
+                <div class="stat-card warning"><span>Masqués</span><strong id="stat-hidden">0</strong></div>
+                <div class="stat-card info"><span>Commentaires</span><strong id="stat-comments">0</strong></div>
+                <div class="stat-card accent"><span>Likes</span><strong id="stat-likes">0</strong></div>
+                <div class="stat-card danger"><span>En attente</span><strong id="stat-pending">0</strong></div>
+              </div>
+            </section>
 
-        <div class="dashboard-grid">
-          <div class="panel">
-            <div class="panel-header">
-              <span class="eyebrow">Publication</span>
-              <h2>Rédiger un article</h2>
-            </div>
-            <form id="articleForm" class="stack-form">
-              <label>
-                Titre
-                <input type="text" name="title" placeholder="Titre de l’article" required />
-              </label>
-              <label>
-                Catégorie
-                <input type="text" name="category" placeholder="Ex : Politique, Société" />
-              </label>
-              <label>
-                URL de l’image
-                <input type="url" name="imageUrl" placeholder="https://..." />
-              </label>
-              <label>
-                Contenu
-                <textarea name="content" rows="7" placeholder="Rédigez votre article ici" required></textarea>
-              </label>
-              <button type="submit" class="btn btn-primary">Publier</button>
-            </form>
-          </div>
+            <section class="dashboard-view hidden" data-dashboard-view="site">
+              <div class="panel content-panel">
+                <div class="panel-header"><span class="eyebrow">Personnalisation</span><h2>Pages du site</h2><p>Modifiez les titres et textes affichés sur l’accueil, les actualités, la page À propos et le contact.</p></div>
+                <form id="contentForm" class="content-form">
+                  <label>Signature sous le logo<input name="brandSubtitle" /></label>
+                  <label>Accueil - petit titre<input name="homeEyebrow" /></label>
+                  <label>Accueil - grand titre<input name="homeTitle" required /></label>
+                  <label>Accueil - description<textarea name="homeDescription" rows="3"></textarea></label>
+                  <label>Bouton de l’accueil<input name="homeButton" /></label>
+                  <label>Encart - petit titre<input name="spotlightLabel" /></label>
+                  <label>Encart - grand titre<input name="spotlightTitle" /></label>
+                  <label>Encart - description<textarea name="spotlightDescription" rows="3"></textarea></label>
+                  <label>Actualités - petit titre<input name="newsEyebrow" /></label>
+                  <label>Actualités - grand titre<input name="newsTitle" required /></label>
+                  <label>Actualités - description<textarea name="newsDescription" rows="3"></textarea></label>
+                  <label>À propos - petit titre<input name="aboutEyebrow" /></label>
+                  <label>À propos - grand titre<input name="aboutTitle" required /></label>
+                  <label>À propos - description<textarea name="aboutDescription" rows="3"></textarea></label>
+                  <label>Contact - petit titre<input name="contactEyebrow" /></label>
+                  <label>Contact - grand titre<input name="contactTitle" required /></label>
+                  <label>Contact - description<textarea name="contactDescription" rows="3"></textarea></label>
+                  <label>Email de contact<input name="contactEmail" type="email" /></label>
+                  <button type="submit" class="btn btn-primary">Enregistrer les textes</button>
+                </form>
+              </div>
+            </section>
 
-          <div class="panel">
-            <div class="panel-header">
-              <span class="eyebrow">Gestion</span>
-              <h2>Articles</h2>
-            </div>
-            <div id="articleList" class="article-admin-list"></div>
-          </div>
-        </div>
+            <section class="dashboard-view hidden" data-dashboard-view="articles">
+              <div class="dashboard-grid">
+                <div class="panel">
+                  <div class="panel-header"><span class="eyebrow">Publication</span><h2>Rédiger un article</h2></div>
+                  <form id="articleForm" class="stack-form">
+                    <label>Titre<input type="text" name="title" placeholder="Titre de l’article" required /></label>
+                    <label>Catégorie<input type="text" name="category" placeholder="Ex : Politique, Société" /></label>
+                    <label>URL de l’image<input type="url" name="imageUrl" placeholder="https://..." /></label>
+                    <label>Contenu<textarea name="content" rows="7" placeholder="Rédigez votre article ici" required></textarea></label>
+                    <button type="submit" class="btn btn-primary">Publier</button>
+                  </form>
+                </div>
+                <div class="panel"><div class="panel-header"><span class="eyebrow">Gestion</span><h2>Articles</h2></div><div id="articleList" class="article-admin-list"></div></div>
+              </div>
+            </section>
 
-        <div class="panel moderation-panel">
-          <div class="panel-header">
-            <span class="eyebrow">Modération</span>
-            <h2>Commentaires</h2>
+            <section class="dashboard-view hidden" data-dashboard-view="comments">
+              <div class="panel moderation-panel"><div class="panel-header"><span class="eyebrow">Modération</span><h2>Commentaires</h2></div><div id="moderationList" class="moderation-list"></div></div>
+            </section>
           </div>
-          <div id="moderationList" class="moderation-list"></div>
         </div>
       </section>
     </main>

@@ -15,5 +15,25 @@
         "visitor-1789201490312-3e7d6518be699"
       ]
     }
-  ]
+  ],
+  "siteContent": {
+    "brandSubtitle": "nouveau monde",
+    "homeEyebrow": "Analyse, contexte, d�bat",
+    "homeTitle": "Des id�es claires, des faits sans bruit.",
+    "homeDescription": "Val�re est un espace de publication personnelle pour raconter l'actualit�, donner du sens aux sujets de fond et laisser la conversation se d�velopper avec les lecteurs.",
+    "homeButton": "Lire les derni�res infos",
+    "spotlightLabel": "Le point du jour",
+    "spotlightTitle": "Le d�bat public revient au centre de la vie politique.",
+    "spotlightDescription": "Entre urgence sociale, exigence de clart� et besoin de confiance, les d�cideurs doivent reprendre la parole avec plus de coh�rence.",
+    "newsEyebrow": "Fil d'actualit�s",
+    "newsTitle": "Derni�res publications",
+    "newsDescription": "Les analyses et r�cits publi�s r�cemment par Val�re.",
+    "aboutEyebrow": "� propos",
+    "aboutTitle": "Un regard attentif sur le monde qui nous entoure.",
+    "aboutDescription": "Val�re privil�gie les faits, le contexte et les conversations utiles pour mieux comprendre les sujets qui traversent notre �poque.",
+    "contactEyebrow": "Contact",
+    "contactTitle": "Poursuivons la conversation.",
+    "contactDescription": "Une question, une id�e ou une r�action ? �crivez-nous et nous vous r�pondrons avec attention.",
+    "contactEmail": "bonjour@valere.fr"
+  }
 }

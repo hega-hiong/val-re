@@ -145,6 +145,7 @@ function migrateDb() {
       comments: Array.isArray(article.comments) ? article.comments : []
     };
   });
+  db.siteContent = getSiteContent(db);
   writeDb(db);
 }
 
