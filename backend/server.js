@@ -197,7 +197,7 @@ function renderMaintenancePage() {
       <head>
         <meta charset="UTF-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        <title>ATTENTION</title>
+        <title> TicTac</title>
         <style>
           :root {
             --paper: #efe7d7;
@@ -319,16 +319,16 @@ function renderMaintenancePage() {
       <body>
         <main class="notice" aria-live="polite">
           <div class="topline">
-            <span class="brand">Service public</span>
+            <span class="brand"> </span>
             <span>Information</span>
           </div>
 
           <div class="tag">ATTENTION</div>
           <h1>ATTENTION</h1>
 
-          <div class="subtitle">Le site est actuellement indisponible pour une maintenance de routine.</div>
+          <div class="subtitle"></div>
           <div class="bar"></div>
-          <p>Nous rétablirons l’accès dès que les opérations seront terminées. Merci de votre compréhension.</p>
+          <p></p>
         </main>
       </body>
     </html>
