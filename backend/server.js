@@ -197,16 +197,15 @@ function renderMaintenancePage() {
       <head>
         <meta charset="UTF-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        <title> TicTac</title>
+        <title>ATTENTION</title>
         <style>
           :root {
-            --paper: #efe7d7;
-            --paper-deep: #e1d3b0;
-            --ink: #130f0d;
-            --ink-soft: #41392f;
-            --rule: #8d775c;
-            --accent: #7b1d1d;
-            --shadow: rgba(0,0,0,0.18);
+            --paper: #f5f5f3;
+            --paper-deep: #e6e3df;
+            --ink: #111111;
+            --ink-soft: #2c2c2c;
+            --rule: #646464;
+            --shadow: rgba(0,0,0,0.22);
           }
 
           * { box-sizing: border-box; }
@@ -217,13 +216,13 @@ function renderMaintenancePage() {
             display: grid;
             place-items: center;
             background:
-              radial-gradient(circle at center, rgba(33,27,17,0.08), transparent 60%),
+              linear-gradient(rgba(0,0,0,0.03), rgba(0,0,0,0.03)),
               repeating-linear-gradient(
                 0deg,
-                #d7c9aa 0,
-                #d7c9aa 2px,
-                #efe7d7 2px,
-                #efe7d7 4px
+                #d9d9d6 0,
+                #d9d9d6 2px,
+                #f0f0ee 2px,
+                #f0f0ee 4px
               );
             font-family: Georgia, "Times New Roman", serif;
             color: var(--ink);
@@ -231,31 +230,34 @@ function renderMaintenancePage() {
           }
 
           .notice {
-            width: min(880px, calc(100% - 28px));
-            background: linear-gradient(180deg, rgba(255,255,255,0.1), rgba(0,0,0,0.02)), var(--paper);
+            width: min(860px, calc(100% - 26px));
+            background: var(--paper);
             border: 4px solid var(--ink);
-            box-shadow: 10px 10px 0 var(--shadow);
-            padding: 20px 30px 28px;
+            box-shadow: 14px 14px 0 var(--shadow);
+            padding: 18px 28px 24px;
             position: relative;
+            filter: grayscale(100%);
           }
 
           .notice::before {
             content: "";
             position: absolute;
-            inset: 12px;
+            inset: 10px;
             border: 2px solid var(--rule);
             pointer-events: none;
           }
 
           .topline {
+            position: relative;
+            z-index: 1;
             display: flex;
             align-items: center;
             justify-content: space-between;
             gap: 10px;
             padding-bottom: 10px;
-            margin-bottom: 12px;
-            border-bottom: 3px double var(--ink);
-            font-size: 0.68rem;
+            margin-bottom: 14px;
+            border-bottom: 3px solid var(--ink);
+            font-size: 0.7rem;
             letter-spacing: 0.26em;
             text-transform: uppercase;
             color: var(--ink-soft);
@@ -266,40 +268,48 @@ function renderMaintenancePage() {
           }
 
           .tag {
+            position: relative;
+            z-index: 1;
             display: inline-block;
             margin-top: 8px;
-            border: 3px solid var(--accent);
-            padding: 9px 14px;
-            color: var(--accent);
-            background: rgba(123,29,29,0.04);
+            border: 3px solid var(--ink);
+            padding: 10px 16px;
+            color: var(--ink);
+            background: var(--paper-deep);
             font-weight: 800;
             letter-spacing: 0.18em;
-            font-size: 0.85rem;
+            font-size: 0.8rem;
             text-transform: uppercase;
           }
 
           h1 {
+            position: relative;
+            z-index: 1;
             margin: 18px 0 16px;
             text-align: center;
-            font-size: clamp(2.8rem, 9vw, 6.2rem);
-            line-height: 0.9;
-            letter-spacing: 0.12em;
+            font-size: clamp(2.8rem, 8vw, 6rem);
+            line-height: 0.85;
+            letter-spacing: 0.14em;
             font-weight: 900;
-            color: var(--accent);
+            color: var(--ink);
             text-transform: uppercase;
           }
 
           .subtitle {
+            position: relative;
+            z-index: 1;
             text-align: center;
             max-width: 640px;
             margin: 0 auto 16px;
-            font-size: clamp(1.1rem, 2vw, 1.5rem);
+            font-size: clamp(1.05rem, 2vw, 1.4rem);
             line-height: 1.6;
             color: var(--ink-soft);
             font-style: italic;
           }
 
-          .rule {
+          .bar {
+            position: relative;
+            z-index: 1;
             width: 100%;
             height: 2px;
             background: var(--ink);
@@ -307,10 +317,12 @@ function renderMaintenancePage() {
           }
 
           p {
+            position: relative;
+            z-index: 1;
             margin: 0 auto;
             max-width: 660px;
             text-align: center;
-            font-size: clamp(1rem, 2vw, 1.15rem);
+            font-size: clamp(1rem, 2vw, 1.12rem);
             line-height: 1.8;
             color: var(--ink);
           }
@@ -319,16 +331,16 @@ function renderMaintenancePage() {
       <body>
         <main class="notice" aria-live="polite">
           <div class="topline">
-            <span class="brand"> </span>
+            <span class="brand">Service</span>
             <span>Information</span>
           </div>
 
           <div class="tag">ATTENTION</div>
           <h1>ATTENTION</h1>
 
-          <div class="subtitle"></div>
+          <div class="subtitle">Le site est actuellement indisponible pour une maintenance de routine.</div>
           <div class="bar"></div>
-          <p></p>
+          <p>Nous rétablirons l’accès dès que les opérations seront terminées. Merci de votre compréhension.</p>
         </main>
       </body>
     </html>
