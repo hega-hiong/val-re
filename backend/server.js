@@ -200,12 +200,8 @@ function renderMaintenancePage() {
         <title>ATTENTION</title>
         <style>
           :root {
-            --paper: #f5f5f3;
-            --paper-deep: #e6e3df;
-            --ink: #111111;
-            --ink-soft: #2c2c2c;
-            --rule: #646464;
-            --shadow: rgba(0,0,0,0.22);
+            --bg: #ffffff;
+            --text: #000000;
           }
 
           * { box-sizing: border-box; }
@@ -215,132 +211,36 @@ function renderMaintenancePage() {
             min-height: 100vh;
             display: grid;
             place-items: center;
-            background:
-              linear-gradient(rgba(0,0,0,0.03), rgba(0,0,0,0.03)),
-              repeating-linear-gradient(
-                0deg,
-                #d9d9d6 0,
-                #d9d9d6 2px,
-                #f0f0ee 2px,
-                #f0f0ee 4px
-              );
-            font-family: Georgia, "Times New Roman", serif;
-            color: var(--ink);
-            letter-spacing: 0.02em;
+            background: var(--bg);
+            font-family: Arial, Helvetica, sans-serif;
+            color: var(--text);
           }
 
           .notice {
-            width: min(860px, calc(100% - 26px));
-            background: var(--paper);
-            border: 4px solid var(--ink);
-            box-shadow: 14px 14px 0 var(--shadow);
-            padding: 18px 28px 24px;
-            position: relative;
-            filter: grayscale(100%);
-          }
-
-          .notice::before {
-            content: "";
-            position: absolute;
-            inset: 10px;
-            border: 2px solid var(--rule);
-            pointer-events: none;
-          }
-
-          .topline {
-            position: relative;
-            z-index: 1;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            gap: 10px;
-            padding-bottom: 10px;
-            margin-bottom: 14px;
-            border-bottom: 3px solid var(--ink);
-            font-size: 0.7rem;
-            letter-spacing: 0.26em;
-            text-transform: uppercase;
-            color: var(--ink-soft);
-          }
-
-          .brand {
-            font-weight: 700;
-          }
-
-          .tag {
-            position: relative;
-            z-index: 1;
-            display: inline-block;
-            margin-top: 8px;
-            border: 3px solid var(--ink);
-            padding: 10px 16px;
-            color: var(--ink);
-            background: var(--paper-deep);
-            font-weight: 800;
-            letter-spacing: 0.18em;
-            font-size: 0.8rem;
-            text-transform: uppercase;
+            width: 100%;
+            min-height: 100vh;
+            display: grid;
+            place-items: center;
+            padding: 20px;
+            background: #fff;
+            color: #000;
+            text-align: center;
           }
 
           h1 {
-            position: relative;
-            z-index: 1;
-            margin: 18px 0 16px;
-            text-align: center;
-            font-size: clamp(2.8rem, 8vw, 6rem);
-            line-height: 0.85;
-            letter-spacing: 0.14em;
+            margin: 0;
+            font-size: clamp(3rem, 12vw, 12rem);
+            line-height: 0.9;
+            letter-spacing: 0.08em;
             font-weight: 900;
-            color: var(--ink);
+            color: #000;
             text-transform: uppercase;
-          }
-
-          .subtitle {
-            position: relative;
-            z-index: 1;
-            text-align: center;
-            max-width: 640px;
-            margin: 0 auto 16px;
-            font-size: clamp(1.05rem, 2vw, 1.4rem);
-            line-height: 1.6;
-            color: var(--ink-soft);
-            font-style: italic;
-          }
-
-          .bar {
-            position: relative;
-            z-index: 1;
-            width: 100%;
-            height: 2px;
-            background: var(--ink);
-            margin: 18px 0 16px;
-          }
-
-          p {
-            position: relative;
-            z-index: 1;
-            margin: 0 auto;
-            max-width: 660px;
-            text-align: center;
-            font-size: clamp(1rem, 2vw, 1.12rem);
-            line-height: 1.8;
-            color: var(--ink);
           }
         </style>
       </head>
       <body>
         <main class="notice" aria-live="polite">
-          <div class="topline">
-            <span class="brand">Service</span>
-            <span>Information</span>
-          </div>
-
-          <div class="tag">ATTENTION</div>
           <h1>ATTENTION</h1>
-
-          <div class="subtitle">Le site est actuellement indisponible pour une maintenance de routine.</div>
-          <div class="bar"></div>
-          <p>Nous rétablirons l’accès dès que les opérations seront terminées. Merci de votre compréhension.</p>
         </main>
       </body>
     </html>
