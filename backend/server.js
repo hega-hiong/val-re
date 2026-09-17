@@ -10,6 +10,7 @@ const ROOT_DIR = path.join(__dirname, '..');
 const FRONTEND_DIR = path.join(ROOT_DIR, 'frontend');
 const DB_PATH = path.join(__dirname, 'data', 'db.json');
 const UPLOADS_DIR = path.join(FRONTEND_DIR, 'uploads');
+const MAINTENANCE_MODE = process.env.MAINTENANCE_MODE !== 'false';
 const upload = multer({
   storage: multer.diskStorage({
     destination: UPLOADS_DIR,
@@ -188,6 +189,160 @@ app.use(
 app.get(['/admin', '/admin.html', '/admin/'], (req, res) => {
   return res.sendFile(path.join(FRONTEND_DIR, 'admin.html'));
 });
+
+function renderMaintenancePage() {
+  return `
+    <!DOCTYPE html>
+    <html lang="fr">
+      <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>ATTENTION</title>
+        <style>
+          :root {
+            --paper: #efe7d7;
+            --paper-deep: #e1d3b0;
+            --ink: #130f0d;
+            --ink-soft: #41392f;
+            --rule: #8d775c;
+            --accent: #7b1d1d;
+            --shadow: rgba(0,0,0,0.18);
+          }
+
+          * { box-sizing: border-box; }
+
+          body {
+            margin: 0;
+            min-height: 100vh;
+            display: grid;
+            place-items: center;
+            background:
+              radial-gradient(circle at center, rgba(33,27,17,0.08), transparent 60%),
+              repeating-linear-gradient(
+                0deg,
+                #d7c9aa 0,
+                #d7c9aa 2px,
+                #efe7d7 2px,
+                #efe7d7 4px
+              );
+            font-family: Georgia, "Times New Roman", serif;
+            color: var(--ink);
+            letter-spacing: 0.02em;
+          }
+
+          .notice {
+            width: min(880px, calc(100% - 28px));
+            background: linear-gradient(180deg, rgba(255,255,255,0.1), rgba(0,0,0,0.02)), var(--paper);
+            border: 4px solid var(--ink);
+            box-shadow: 10px 10px 0 var(--shadow);
+            padding: 20px 30px 28px;
+            position: relative;
+          }
+
+          .notice::before {
+            content: "";
+            position: absolute;
+            inset: 12px;
+            border: 2px solid var(--rule);
+            pointer-events: none;
+          }
+
+          .topline {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 10px;
+            padding-bottom: 10px;
+            margin-bottom: 12px;
+            border-bottom: 3px double var(--ink);
+            font-size: 0.68rem;
+            letter-spacing: 0.26em;
+            text-transform: uppercase;
+            color: var(--ink-soft);
+          }
+
+          .brand {
+            font-weight: 700;
+          }
+
+          .tag {
+            display: inline-block;
+            margin-top: 8px;
+            border: 3px solid var(--accent);
+            padding: 9px 14px;
+            color: var(--accent);
+            background: rgba(123,29,29,0.04);
+            font-weight: 800;
+            letter-spacing: 0.18em;
+            font-size: 0.85rem;
+            text-transform: uppercase;
+          }
+
+          h1 {
+            margin: 18px 0 16px;
+            text-align: center;
+            font-size: clamp(2.8rem, 9vw, 6.2rem);
+            line-height: 0.9;
+            letter-spacing: 0.12em;
+            font-weight: 900;
+            color: var(--accent);
+            text-transform: uppercase;
+          }
+
+          .subtitle {
+            text-align: center;
+            max-width: 640px;
+            margin: 0 auto 16px;
+            font-size: clamp(1.1rem, 2vw, 1.5rem);
+            line-height: 1.6;
+            color: var(--ink-soft);
+            font-style: italic;
+          }
+
+          .rule {
+            width: 100%;
+            height: 2px;
+            background: var(--ink);
+            margin: 18px 0 16px;
+          }
+
+          p {
+            margin: 0 auto;
+            max-width: 660px;
+            text-align: center;
+            font-size: clamp(1rem, 2vw, 1.15rem);
+            line-height: 1.8;
+            color: var(--ink);
+          }
+        </style>
+      </head>
+      <body>
+        <main class="notice" aria-live="polite">
+          <div class="topline">
+            <span class="brand">Service public</span>
+            <span>Information</span>
+          </div>
+
+          <div class="tag">ATTENTION</div>
+          <h1>ATTENTION</h1>
+
+          <div class="subtitle">Le site est actuellement indisponible pour une maintenance de routine.</div>
+          <div class="bar"></div>
+          <p>Nous rétablirons l’accès dès que les opérations seront terminées. Merci de votre compréhension.</p>
+        </main>
+      </body>
+    </html>
+  `;
+}
+
+if (MAINTENANCE_MODE) {
+  app.use((req, res, next) => {
+    if (req.path.startsWith('/api')) {
+      return res.status(503).json({ error: 'ATTENTION : site temporairement bloqué pour maintenance.' });
+    }
+    return res.send(renderMaintenancePage());
+  });
+}
 
 app.use(express.static(FRONTEND_DIR));
 
